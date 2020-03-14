@@ -4,6 +4,11 @@
   margin-bottom: 10px;
 }
 
+.toggleSwitchDescription {
+    position: relative;
+    top: 0.75em;
+}
+
 .toggleSwitchLabel {
   position: relative;
   display: block;

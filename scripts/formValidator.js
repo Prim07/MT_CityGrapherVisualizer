@@ -10,10 +10,9 @@ export function validate() {
         return false;
     }
 
-    const inputToggleUseBruteForce = document.getElementById('inputToggleUseBruteForce');
     const numberOfResultsInput = document.getElementById('numberOfResultsInput');
     const numberOfResults = numberOfResultsInput.value;
-    if (inputToggleUseBruteForce.checked && numberOfResults > maxNumberOfResultsForBruteForce) {
+    if (numberOfResults > maxNumberOfResultsForBruteForce) {
         showError("You cannot run Brute Force Algorithm with more than 3 requested results.")
         return false;
     }
