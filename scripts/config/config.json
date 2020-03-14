@@ -1,0 +1,17 @@
+{
+    "urls": {
+        "dataCollector": {
+            "baseUrl": "http://localhost:8080/dataCollector",
+            "endpoints": {
+                "createTask": "/createTask",
+                "algorithmResult" : "/algorithmResult/"
+            }
+        },
+        "algorithm": {
+            "baseUrl": "http://localhost:8090/algorithm",
+            "endpoints": {
+                "algorithm": "/algorithm"
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.inputContainerOdd {
+  grid-area: inputContainerOdd
+}
+
+.inputContainerEven {
+  grid-area: inputContainerEven
+}
+
+.materialButtonContainer {
+    grid-area: materialButtonContainer;
+    text-align-last: right
+}
+
+.toggleSwitchDescription {
+    position: relative;
+    top: 0.75em;
+}
+
+#bruteForceAddidtionalDescription {
+    color: gray;
+    visibility: collapse;
+}
+
+.toolsContainer {
+    display: grid;
+    grid-template-columns: 4em 1fr;
+    grid-gap: 1em;
+
+    grid-template-areas:
+    "inputContainerOdd inputContainerOdd"
+    "inputContainerEven inputContainerEven"
+    "toggleSwitchContainer toggleSwitchDescription"
+    "toggleSwitchContainer toggleSwitchDescription"
+    "toggleSwitchContainer toggleSwitchDescription"
+    "materialButtonContainer materialButtonContainer"
+}

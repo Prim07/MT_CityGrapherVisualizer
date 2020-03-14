@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>City Grapher Visualizer</title>
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+	<link rel="stylesheet" type="text/css" href="./css/tabs.css">
+	<link rel="stylesheet" type="text/css" href="./css/tools.css">
+	<link rel="stylesheet" type="text/css" href="./css/input.css">
+	<link rel="stylesheet" type="text/css" href="./css/toggleswitch.css">
+	<link rel="stylesheet" type="text/css" href="./css/button.css">
+</head>
+
+<body>
+	<main>
+		<input class="inputTab" id="tab1" type="radio" name="tabs" checked>
+		<label class="labelTab" for="tab1">City Grapher</label>
+		
+		<input class="inputTab" id="tab2" type="radio" name="tabs">
+		<label class="labelTab" for="tab2">About</label>
+		
+		<input class="inputTab" id="tab3" type="radio" name="tabs">
+		<label class="labelTab" for="tab3">Other</label>
+		
+		<section id="content1">
+			<div class="gridContainer">
+				<aside class="tools">
+					<div class="toolsContainer">
+						<div class="inputContainer inputContainerOdd">
+							<div>
+								<input type="text" id="cityInput" class="inputPlaceholder" placeholder="City" value="Bochnia">
+								<label for="cityInput" class="inputLabel">City</label>
+							</div>
+						</div>
+						
+						<div class="inputContainer inputContainerEven">
+							<div>
+								<input type="number" min="1" max="10" id="numberOfResultsInput" class="inputPlaceholder" placeholder="Number of results" value="2">
+								<label for="numberOfResultsInput" class="inputLabel">Number of results</label>
+							</div>
+						</div>
+						
+						<div class="toggleSwitchContainer">
+							<input type="checkbox" id="inputToggleDrawNodes" class="cbx hidden" checked="checked" />
+							<label for="inputToggleDrawNodes" class="toggleSwitchLabel"></label>
+						</div>
+						<div class="toggleSwitchDescription">
+							Show all nodes
+						</div>
+						<div class="toggleSwitchContainer">
+							<input type="checkbox" id="inputToggleDrawCrossings" class="cbx hidden" checked="checked" />
+							<label for="inputToggleDrawCrossings" class="toggleSwitchLabel"></label>
+						</div>
+						<div class="toggleSwitchDescription">
+							Show all crossings
+						</div>
+						<div class="toggleSwitchContainer">
+							<input type="checkbox" id="inputToggleUseBruteForce" class="cbx hidden" />
+							<label for="inputToggleUseBruteForce" class="toggleSwitchLabel"></label>
+						</div>
+						<div class="toggleSwitchDescription">
+							<p>Use Brute Force Algorithm</p>
+							<p id="bruteForceAddidtionalDescription">(probably much slower than Simulated Annealing Algorithm, but returning exact results; use only for 1-3 requested results and smaller cities)</p>
+						</div>
+					</div>
+					
+					<div class="materialButtonContainer">
+						<button class="materialButton" id="algorithmCancelButton">Cancel</button>
+						<button class="materialButton" id="algorithmStartButton">Start</button>
+					</div>
+				</aside>
+				
+				<div class="osmMapContainer" id="osmFirstMapContainer">
+					<div id="osmMap"></div>
+				</div>
+				
+				<footer>CityGrapher & CityGrapher Visualizer 2019, AGH Univeristy of Science and Technology</footer>
+			</div>
+		</div>
+	</section>
+	
+	<section id="content2">
+		<p>
+			Simulated annealing is a heuristic algorithm used for approximating global optimum of a given function. Mainly, it is recommended for problems where search space is too large to use a classic approach.
+		</br></br>
+			One of these problems is finding optimal distribution of local service centres in a city (on a city graph).
+		</br></br>
+			We created a tool which solves this problem. All you have to do is provide a city you are interested in and run algorithm. Just insert its name and number of requested results (i.e. number of crossings to find). You can also choose whether to draw or not all nodes and crossings on the map. You will be informed about the next stages of the process: data collecting and calculating.
+		</br></br>
+			For the smaller cities you can try running <i>Brute Force</i> algorithm. However, this option in available only for 1-3 requested nodes.
+		</p>
+
+		
+	</section>
+	
+	<section id="content3">
+		<p>
+			CityGrapher and CityGrapher Visualizer are BSc Thesises made by two students from AGH UST. The main goal of the project
+			is to create an algorithm for finding an optimal distribution of local service centres on transportation network. The graph
+			is created with real OpenStreetMaps city data and algorithm is based on the simulated annealing idea.
+		</br></br>
+		GitHub repositories:
+		<ul>
+			<li><a href="https://github.com/Prim07/CityGrapher" />CityGrapher</li>
+			<li><a href="https://github.com/ppaula/CityGrapherVisualizer" />CityGrapher Visualizer</li>
+		</ul>
+	</br></br>			
+	Prerequisites:
+	<ul>
+		<li>Java 11</li>
+		<li>Spring</li>
+		<li>JavaScript 8.12</li>
+	</ul>
+</br></br>			
+Built with:
+<ul>
+	<li>Frontend:
+		<ul>
+			<li>npm</li>
+			<li>Parcel</li>
+		</ul>
+	</li>
+	<li>Backend:
+		<ul>
+			<li>Maven</li>
+		</ul>
+	</li>
+</ul>
+</p>
+
+</section>
+
+</main>
+
+<script src="./scripts/main.js"></script>
+<script src="./scripts/graph.js"></script>
+<script src="./scripts/algorithmExecutor.js"></script>
+<script src="./scripts/viewActions.js"></script>
+
+</body>
+
+</html>

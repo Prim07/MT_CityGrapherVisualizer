@@ -1,0 +1,43 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.inputTab {
+    display: none;
+}
+
+.labelTab {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #abc;
+    border: 1px solid transparent;
+}
+
+.labelTab:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.labelTab[for*='1']:before { content: '\f1cb'; }
+.labelTab[for*='2']:before { content: '\f129'; }
+.labelTab[for*='3']:before { content: '\f10c'; }
+
+.labelTab:hover {
+    color: #789;
+    cursor: pointer;
+}
+
+.inputTab:checked + .labelTab {
+    color: #0af;
+    border: 1px solid #abc;
+    border-top: 2px solid #0af;
+    border-bottom: 1px solid #fff;
+}
+
+#tab1:checked ~ #content1,
+#tab2:checked ~ #content2,
+#tab3:checked ~ #content3{
+    display: block;
+}

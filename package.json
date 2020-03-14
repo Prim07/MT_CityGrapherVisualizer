@@ -1,0 +1,35 @@
+{
+  "name": "city_grapher",
+  "version": "1.0.0",
+  "description": "City Grapher",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build --public-url . index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "compass": "^0.1.1",
+    "ol": "^5.2.0",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^7.33.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0",
+    "parcel": "^1.10.3",
+    "parcel-bundler": "^1.10.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ppaula/CityGrapherVisualizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ppaula/CityGrapherVisualizer/issues"
+  },
+  "homepage": "https://github.com/ppaula/CityGrapherVisualizer#readme"
+}

@@ -1,0 +1,47 @@
+.inputContainer {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inputPlaceholder {
+  font-family: inherit;
+  width: 1fr;
+  border: 0;
+  border-bottom: 1px solid #d2d2d2;
+  outline: 0;
+  font-size: 16px;
+  color: #4d6680;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.inputPlaceholder::placeholder {
+  color: transparent;
+}
+
+.inputPlaceholder:placeholder-shown ~ .inputLabel {
+  font-size: 16px;
+  cursor: text;
+  top: 20px;
+}
+
+.inputLabel, .inputPlaceholder:focus ~ .inputLabel {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 12px;
+  color: #9b9b9b;
+}
+
+.inputPlaceholder:focus ~ .inputLabel {
+  color: #009788;
+}
+
+.inputPlaceholder:focus {
+  padding-bottom: 6px;
+  border-bottom: 2px solid #009788;
+}

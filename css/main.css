@@ -1,0 +1,167 @@
+/* Declarations of grid elements for templating areas */
+nav {
+  grid-area: nav
+}
+
+aside {
+  grid-area: aside
+}
+
+.osmMapContainer {
+  grid-area: osmMapContainer
+}
+
+footer {
+  grid-area: footer
+}
+
+/* Styling elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+  color: #4d6680;
+}
+
+body {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2em;
+  color:#345;
+  background:#f0f2f4;
+}
+
+main {
+  width: 1800px;
+  padding: 3em;
+  padding-bottom: 1.5em;
+  border: 1px solid rgba(0,0,0,.2);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
+section {
+  display: none;
+  padding: 20px 0 0;
+  border-top: 1px solid #abc;
+}
+
+.gridContainer {
+  display: grid;
+  grid-gap: 1em;
+}
+
+.navigation {
+  list-style: none;
+  margin: 0; 
+  border-radius: 1em;
+  
+  background: rgb(248, 172, 84);
+  
+  font-size: 1em;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.navigation a {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: #441e2d;
+}
+
+.osmMapContainer {
+  margin: 0em;
+  border-radius: 1em;  
+  background: #f5ffff;
+}
+
+.tools {
+  background-color: #f5ffff;
+  padding: 1em;
+  border-radius: 1em;
+}
+
+footer {
+  color: rgb(33, 150, 243, 0.45);
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#osmMap {
+  height: 100%;
+  padding: 1em;
+}
+
+#content2 {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+#content3 {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/* Responsiveness */
+/* Desktops */
+@media screen and (min-width: 801px) {
+  .gridContainer{
+    height: 75vh;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 3em;
+    grid-template-areas: 
+    "aside osmMapContainer osmMapContainer osmMapContainer"
+    "footer footer footer footer"  
+  }
+}
+
+/* Mobile devices */
+@media all and (max-width: 800px) {
+  .gridContainer{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr 1fr 3em;
+    grid-template-areas: 
+    "aside"
+    "osmMapContainer"
+    "footer"  
+  }
+  
+  .navigation {
+    -webkit-flex-flow: column wrap;
+    flex-flow: column wrap;
+    padding: 0;
+  }
+  
+  .navigation a { 
+    text-align: center; 
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.3); 
+    border-bottom: 1px solid rgba(0,0,0,0.1); 
+  }
+  
+  .navigation li:last-of-type a {
+    border-bottom: none;
+  }
+  
+  .labelTab {
+    padding: 15px;    
+    font-size: 0;
+  }
+  
+  .labelTab:before {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+}
