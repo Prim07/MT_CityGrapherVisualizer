@@ -11,6 +11,9 @@ const algorithmStartButton = document.getElementById("algorithmStartButton");
 const algorithmCancelButton = document.getElementById("algorithmCancelButton");
 const inputToggleDrawNodes = document.getElementById("inputToggleDrawNodes");
 const inputToggleDrawCrossings = document.getElementById("inputToggleDrawCrossings");
+const calculatingStatusContainer = document.getElementById("calculatingStatusContainer");
+const statusMessage = document.getElementById("statusMessage");
+const calculatingShortestPathsProgressProgressbar = document.getElementById("calculatingShortestPathsProgressProgressbar");
 
 const maxNumberOfRequestForCalculationStatus = 500;
 const millisecondsToWaitBetweenRequests = 1000;
@@ -63,6 +66,7 @@ algorithmCancelButton.onclick = function() {
 function getResultsFromAlgorithm(requestCounter, uri) {
     getJsonData(uri).then(result => {
         const calculationStatus = result['status'];
+        updateViewDuringTask(result, requestCounter, calculationStatus);
         if (calculationStatus == "SUCCESS") {
             getPositiveResultFromAlgorithm(result['taskId']);
         } else if (calculationStatus == "CANCELLED") {
@@ -112,4 +116,21 @@ function setButtonsToInitialState() {
 function setButtonsToAwaitingState() {
     algorithmCancelButton.style.visibility = "visible";
     algorithmStartButton.disabled = true;
+}
+
+function updateViewDuringTask(result, requestCounter, calculationStatus) {
+    if (requestCounter < maxNumberOfRequestForCalculationStatus
+        && calculationStatus == "CALCULATING_SHORTEST_PATHS") {
+        let progress = result["calculatingShortestPathsProgress"];
+        calculatingStatusContainer.style.display = "block";
+        calculatingShortestPathsProgressProgressbar.style = "width: " + progress + "%";
+        statusMessage.innerText = "Calculating shortest paths distances";
+        calculatingShortestPathsProgressProgressbar.innerText = progress + "%";
+    } else if (calculatingStatusContainer.style.display != "none") {
+        calculatingStatusContainer.style.display = "none";
+    }
+
+    if (calculationStatus == "CALCULATING") {
+        // TODO here show progress on algorithm
+    }
 }

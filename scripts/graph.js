@@ -3,6 +3,8 @@ import { addLine } from './line.js';
 import { drawMap } from './map.js';
 
 export function drawGraph(graphData) {
+    console.log(graphData);
+
     const shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
     const shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
     

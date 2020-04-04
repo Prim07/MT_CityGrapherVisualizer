@@ -3,6 +3,7 @@
 
 <head>
 	<title>City Grapher Visualizer</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/main.css">
 	<link rel="stylesheet" type="text/css" href="./css/tabs.css">
 	<link rel="stylesheet" type="text/css" href="./css/tools.css">
@@ -10,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/toggleswitch.css">
 	<link rel="stylesheet" type="text/css" href="./css/button.css">
 	<link rel="stylesheet" type="text/css" href="./css/select.css">
+	<link rel="stylesheet" type="text/css" href="./css/progressbar.css">
 </head>
 
 <body>
@@ -74,6 +76,15 @@
 				</aside>
 				
 				<div class="osmMapContainer" id="osmFirstMapContainer">
+					<div id="calculatingStatusContainer">
+						<p id="statusMessage"></p>
+						<div class="progress">
+							<div id="calculatingShortestPathsProgressProgressbar"
+								class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+								aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					
 					<div id="osmMap"></div>
 				</div>
 				
