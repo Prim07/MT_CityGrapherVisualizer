@@ -1,6 +1,6 @@
 import { addMarker, addHospitalMarker, addCrossingMarker } from './marker.js';
 import { addLine } from './line.js';
-import { drawMap } from './map.js';
+import { updateMapView } from './map.js';
 
 export function drawGraph(graphData) {
     const shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
@@ -44,5 +44,5 @@ export function drawGraph(graphData) {
         }
     });
     
-    drawMap(features, mapCenterCoords);
+    updateMapView(features, mapCenterCoords);
 }

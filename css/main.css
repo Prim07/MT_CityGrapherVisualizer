@@ -97,6 +97,14 @@ footer {
   padding-bottom: 1em;
 }
 
+#calculatingStatusContainer {
+    margin-top: 10%;
+    margin-left: 5em;
+    margin-right: 5em;
+    text-align: center;
+    display: none;
+}
+
 #osmMap {
   height: 100%;
   padding: 1em;
