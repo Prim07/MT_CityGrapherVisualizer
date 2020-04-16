@@ -9,34 +9,42 @@ import { getStyles } from './styles.js';
 
 window.onresize = resizeOsmMapToItsContainersHeight;
 
-export function drawMap(features, mapCenterCoords) {
-  clearTarget();
+const map = new Map();
 
-  const styles = getStyles();
+const vectorLayer = new VectorLayer({
+  style: function (feature) {
+    return getStyles()[feature.get('type')];
+  }
+});
+
+export function initializeMap() {
+  map.setTarget('osmMap');
+
+  map.addLayer(new TileLayer({
+    source: new OSM()
+  }));
+
+  map.addLayer(vectorLayer);
   
-  const vectorSource = new VectorSource({ features: features });
-  
-  const vectorLayer = new VectorLayer({
-    source: vectorSource,
-    style: function (feature) {
-      return styles[feature.get('type')];
-    }
-  });
-  
-  const map = new Map({
-    target: 'osmMap',
-    layers: [
-      new TileLayer({
-        source: new OSM()
-      }),
-      vectorLayer
-    ],
-    view: new View({
-      projection: 'EPSG:3857',
-      center: fromLonLat(mapCenterCoords),
-      zoom: 13
-    })
-  });
+  map.setView(new View({
+    projection: 'EPSG:3857',
+    center: fromLonLat([20.4122665, 49.8568619]),
+    zoom: 2
+  }));
+}
+
+export function updateMapView(features, mapCenterCoords) {
+  map.getView().setCenter(fromLonLat(mapCenterCoords));
+  map.getView().setZoom(13);
+  vectorLayer.setSource(new VectorSource({ features: features }));
+}
+
+export function hideOsmMap() {
+  document.getElementById("osmMap").style.display = "none";
+}
+
+export function showOsmMap() {
+  document.getElementById("osmMap").style.display = "block";  
 }
 
 function resizeOsmMapToItsContainersHeight() {
@@ -45,7 +53,3 @@ function resizeOsmMapToItsContainersHeight() {
   const height = document.getElementById("osmFirstMapContainer").offsetHeight + "px";
   osmMapElement.style.height = height;
 };
-
-function clearTarget() {
-  document.getElementById("osmMap").innerHTML = "";
-}

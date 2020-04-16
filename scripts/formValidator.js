@@ -12,7 +12,10 @@ export function validate() {
 
     const numberOfResultsInput = document.getElementById('numberOfResultsInput');
     const numberOfResults = numberOfResultsInput.value;
-    if (numberOfResults > maxNumberOfResultsForBruteForce) {
+    const algorithmMethod = document.getElementById("algorithmMethod");
+    const algorithmType = algorithmMethod.options[algorithmMethod.selectedIndex].value;
+
+    if ((numberOfResults > maxNumberOfResultsForBruteForce) && (algorithmType == "bf")) {
         showError("You cannot run Brute Force Algorithm with more than 3 requested results.")
         return false;
     }

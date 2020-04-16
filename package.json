@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "browserslist": "^4.11.1",
+    "caniuse-lite": "^1.0.30001042",
     "compass": "^0.1.1",
     "ol": "^5.2.0",
     "sweetalert": "^2.1.2",
