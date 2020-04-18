@@ -19,11 +19,20 @@ export function getStyles() {
   };
 }
 
-export function getCrossingMarkerStyle() {
+export function getDefaultCrossingMarkerStyle() {
   return new Style({
     image: new CircleStyle({
       radius: 4,
       fill: new Fill({ color: [168, 48, 216, 0.5] })
+    })
+  });
+}
+
+export function getCrossingMarkerStyle(rgb) {
+  return new Style({
+    image: new CircleStyle({
+      radius: 4,
+      fill: new Fill({ color: [Number(rgb["R"]), Number(rgb["G"]), Number(rgb["B"]), 0.5] })
     })
   });
 } 

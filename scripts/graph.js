@@ -3,6 +3,7 @@ import { addLine } from './line.js';
 import { updateMapView } from './map.js';
 
 export function drawGraph(graphData) {
+    console.log(graphData);
     const shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
     const shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
     
@@ -19,7 +20,8 @@ export function drawGraph(graphData) {
             addHospitalMarker(features, firstCrossingCoords);
         } else {   
             if (shouldDrawAllCrossings == 'true' && firstCrossing['isCrossing'] == true) {
-                addCrossingMarker(features, firstCrossingCoords);
+                const rgb = getRgbColour(firstCrossing);
+                addCrossingMarker(features, firstCrossingCoords, rgb);
             } else if (shouldDrawAllNodes == 'true') {
                 addMarker(features, firstCrossingCoords);
             }
@@ -36,7 +38,8 @@ export function drawGraph(graphData) {
                 addHospitalMarker(features, crossingToCoords);
             } else { 
                 if (shouldDrawAllCrossings == 'true' && crossingTo['isCrossing'] == true) {
-                    addCrossingMarker(features, crossingToCoords);
+                    const rgb = getRgbColour(firstCrcrossingToossing);
+                    addCrossingMarker(features, crossingToCoords, rgb);
                 } else if (shouldDrawAllNodes == 'true') {
                     addMarker(features, crossingToCoords); 
                 }
@@ -45,4 +48,8 @@ export function drawGraph(graphData) {
     });
     
     updateMapView(features, mapCenterCoords);
+}
+
+function getRgbColour(crossing) {
+    return JSON.parse(crossing['colour']);
 }

@@ -79,7 +79,7 @@ algorithmCancelButton.onclick = function() {
 }
 
 function getResultsFromAlgorithm(requestCounter, uri) {
-    
+
     getJsonData(uri).then(result => {
         const algorithmResult = result['algorithmResultDTO'];
         const calculationStatus = algorithmResult['status'];

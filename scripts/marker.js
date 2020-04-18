@@ -11,13 +11,13 @@ export function addMarker(features, coords) {
 	features.push(marker);
 }
 
-export function addCrossingMarker(features, coords) {
+export function addCrossingMarker(features, coords, rgb) {
 	const marker = new Feature({
 		type: 'marker',
 		geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857')
 	});
 
-	marker.setStyle(getCrossingMarkerStyle);
+	marker.setStyle(getCrossingMarkerStyle(rgb));
 
 	features.push(marker);
 } 
