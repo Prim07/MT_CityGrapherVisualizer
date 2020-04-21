@@ -81,6 +81,7 @@ algorithmCancelButton.onclick = function() {
 function getResultsFromAlgorithm(requestCounter, uri) {
 
     getJsonData(uri).then(result => {
+        // console.log(result);
         const algorithmResult = result['algorithmResultDTO'];
         const calculationStatus = algorithmResult['status'];
         

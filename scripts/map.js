@@ -5,25 +5,19 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Map, View } from 'ol';
 import { fromLonLat } from 'ol/proj';
-import { getStyles } from './styles.js';
 
 window.onresize = resizeOsmMapToItsContainersHeight;
 
 const map = new Map();
-
-const vectorLayer = new VectorLayer({
-  style: function (feature) {
-    return getStyles()[feature.get('type')];
-  }
-});
+const vectorLayer = new VectorLayer({});
 
 export function initializeMap() {
   map.setTarget('osmMap');
-
+  
   map.addLayer(new TileLayer({
     source: new OSM()
   }));
-
+  
   map.addLayer(vectorLayer);
   
   map.setView(new View({
