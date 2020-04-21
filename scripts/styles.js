@@ -1,38 +1,44 @@
 import CircleStyle from 'ol/style/Circle';
-import { Style, Fill, Stroke } from 'ol/style.js';
+import { Style, Stroke, Fill, RegularShape } from 'ol/style.js';
 
-export function getStyles() {
-  return {
-    'line': new Style({
-      stroke: new Stroke({
-        width: 3,
-        color: [237, 0, 0, 0.5]
-      })
-    }),
-    
-    'marker': new Style({
-      image: new CircleStyle({
-        radius: 4,
-        fill: new Fill({ color: [237, 0, 0, 0.5] })
-      })
+export function getLineStyle(rgb) {
+  return new Style({
+    stroke: new Stroke({
+      width: 3,
+      color: [Number(rgb["R"]), Number(rgb["G"]), Number(rgb["B"]), 1.0]
     })
-  };
+  });
 }
 
-export function getCrossingMarkerStyle() {
+export function getDefaultCrossingMarkerStyle() {
+  return new Style({
+    image: new CircleStyle({
+      radius: 1,
+      fill: new Fill({ color: [0, 0, 0, 0.7] })
+    })
+  });
+}
+
+export function getCrossingMarkerStyle(rgb) {
   return new Style({
     image: new CircleStyle({
       radius: 4,
-      fill: new Fill({ color: [168, 48, 216, 0.5] })
+      fill: new Fill({ color: [Number(rgb["R"]), Number(rgb["G"]), Number(rgb["B"]), 0.5] })
     })
   });
 } 
 
-export function getHospitalMarkerStyle() {
+export function getHospitalMarkerStyle(rgb) {
   return new Style({
-    image: new CircleStyle({
-      radius: 6,
-      fill: new Fill({ color: [0, 0, 237, 0.7] })
+    image: new RegularShape({
+      fill: new Fill({ color: [Number(rgb["R"]), Number(rgb["G"]), Number(rgb["B"]), 1.0] }),
+      stroke: new Stroke({
+        width: 2,
+        color: [0, 0, 237, 0.7]
+      }),
+      points: 4,
+      radius: 7,
+      angle: Math.PI / 4
     })
-  });
+  })
 }
