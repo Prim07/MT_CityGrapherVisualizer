@@ -8,7 +8,7 @@
             }
         },
         "algorithm": {
-            "baseUrl": "http://localhost:8090/algorithm",
+            "baseUrl": "https://cg-algorithm.herokuapp.com/algorithm",
             "endpoints": {
                 "algorithm": "/algorithm"
             }
