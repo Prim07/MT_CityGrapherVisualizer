@@ -1,7 +1,7 @@
 {
     "urls": {
         "dataCollector": {
-            "baseUrl": "http://localhost:8080/dataCollector",
+            "baseUrl": "https://cg-data-collector.herokuapp.com/dataCollector",
             "endpoints": {
                 "createTask": "/createTask",
                 "algorithmResult" : "/algorithmResult/"
