@@ -18,14 +18,14 @@
     "ol": "^5.2.0",
     "styles.js": "^0.1.1",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^7.33.1"
-  },
-  "devDependencies": {
+    "sweetalert2": "^7.33.1",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-runtime": "^6.26.0",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4"
+  },
+  "devDependencies": {
   },
   "repository": {
     "type": "git",
