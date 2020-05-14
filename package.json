@@ -29,10 +29,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ppaula/CityGrapherVisualizer.git"
+    "url": "git+https://github.com/Prim07/MT_CityGrapherVisualizer.git"
   },
   "bugs": {
-    "url": "https://github.com/ppaula/CityGrapherVisualizer/issues"
+    "url": "https://github.com/Prim07/MT_CityGrapherVisualizer/issues"
   },
-  "homepage": "https://github.com/ppaula/CityGrapherVisualizer#readme"
+  "homepage": "https://github.com/Prim07/MT_CityGrapherVisualizer#readme"
 }
