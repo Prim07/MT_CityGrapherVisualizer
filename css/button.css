@@ -2,6 +2,10 @@
     visibility: collapse;
 }
 
+#drawGraphButton {
+    font-size: 12px;
+}
+
 .materialButton {
     position: relative;
     display: inline-block;

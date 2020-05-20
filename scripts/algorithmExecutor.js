@@ -1,7 +1,8 @@
-import { validate } from './formValidator.js';
+import { validateInputsForRunningAlgorithm } from './formValidator.js';
+import { validateInputsForDrawingGraph } from './formValidator.js';
 import { showMixin } from './alertViewer.js';
 import { getCreateTaskUri } from './config/config.js';
-import { getUriForAlgorithmTaskResult } from './config/config.js';
+import { getUriForGetGraph } from './config/config.js';
 import { getJsonData } from './rest/get.js';
 import { postJsonData } from './rest/post.js';
 import { deleteForUri } from './rest/delete.js';
@@ -9,7 +10,9 @@ import { drawGraph } from './graph.js';
 import { initializeMap } from './map.js';
 import { hideOsmMap } from './map.js';
 import { showOsmMap } from './map.js';
+import { addInteractionOnMap } from './map.js';
 
+const drawGraphButton = document.getElementById("drawGraphButton");
 const algorithmStartButton = document.getElementById("algorithmStartButton");
 const algorithmCancelButton = document.getElementById("algorithmCancelButton");
 const inputToggleDrawNodes = document.getElementById("inputToggleDrawNodes");
@@ -28,8 +31,27 @@ function initializeView() {
     initializeMap();
 }
 
+drawGraphButton.onclick = function () {
+    if (validateInputsForDrawingGraph()) {
+        showMixin("Started collecting data for drawing graph");
+        const cityInput = document.getElementById("cityInput");
+        const cityName = cityInput.value;
+        const cityGraphDataUri = getUriForGetGraph(cityName);
+        
+        getJsonData(cityGraphDataUri).then(result => {
+            showMixin("Collecting data completed");
+            drawGraph(result);
+            addInteractionOnMap();
+        })
+        .catch(error => {
+            showMixin("An internal server error occured", "error");
+            console.log(error);
+        });
+    }
+}
+
 algorithmStartButton.onclick = function() {
-    if (validate()) {
+    if (validateInputsForRunningAlgorithm()) {
         isTaskCancelled = false;
         hideOsmMap();
         
@@ -79,7 +101,7 @@ algorithmCancelButton.onclick = function() {
 }
 
 function getResultsFromAlgorithm(requestCounter, uri) {
-
+    
     getJsonData(uri).then(result => {
         // console.log(result);
         const algorithmResult = result['algorithmResultDTO'];

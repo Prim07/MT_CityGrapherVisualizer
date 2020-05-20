@@ -12,7 +12,13 @@ export function getUriForAlgorithmTask(taskId) {
 export function getUriForAlgorithmTaskResult(taskId) {
     const dataCollectorBaseUrl = getDataCollectorBaseUrl();
     const algorithmResultEndpoint = getDataCollectorEndpoints()['algorithmResult'];
-    return dataCollectorBaseUrl  + algorithmResultEndpoint  + taskId;
+    return dataCollectorBaseUrl + algorithmResultEndpoint + taskId;
+}
+
+export function getUriForGetGraph(cityName) {
+    const dataCollectorBaseUrl = getDataCollectorBaseUrl();
+    const graphDataEndpoint = getDataCollectorEndpoints()['graphData'];
+    return dataCollectorBaseUrl + graphDataEndpoint + cityName;
 }
 
 function getCreateTaskEndpointPath() {
