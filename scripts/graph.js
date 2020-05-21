@@ -1,6 +1,7 @@
 import { addMarker, addHospitalMarker, addCrossingMarker } from './marker.js';
 import { addLine } from './line.js';
 import { updateMapView } from './map.js';
+import { getRgbColour } from './rgb.js';
 
 export function drawGraph(graphData) {
     // console.log(graphData);
@@ -9,20 +10,21 @@ export function drawGraph(graphData) {
     
     const edges = graphData['edges'];
     let features = [];
+    let graphNodes = [];
     let mapCenterCoords;
     
     edges.forEach(edge => {
         const edgeCrossings = edge['nodes'];
         
         const firstCrossing = edgeCrossings[0];
-        const firstCrossingCoords = mapCenterCoords = [firstCrossing['lon'], firstCrossing['lat']];
+        mapCenterCoords = [firstCrossing['lon'], firstCrossing['lat']];
         if (firstCrossing['isHospital']) {
-            addHospitalMarker(features, firstCrossingCoords, getRgbColour(firstCrossing));
+            addHospitalMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
         } else {   
             if (shouldDrawAllCrossings == 'true' && firstCrossing['isCrossing'] == true) {
-                addCrossingMarker(features, firstCrossingCoords, getRgbColour(firstCrossing));
+                addCrossingMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
             } else if (shouldDrawAllNodes == 'true') {
-                addMarker(features, firstCrossingCoords);
+                addMarker(graphNodes, firstCrossing);
             }
         }  
         
@@ -34,20 +36,16 @@ export function drawGraph(graphData) {
             addLine(features, crossingFromCoords, crossingToCoords, getRgbColour(edge));
             
             if (crossingTo['isHospital']) {
-                addHospitalMarker(features, crossingToCoords, getRgbColour(crossingTo));
+                addHospitalMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
             } else { 
                 if (shouldDrawAllCrossings == 'true' && crossingTo['isCrossing'] == true) {
-                    addCrossingMarker(features, crossingToCoords, getRgbColour(crossingTo));
+                    addCrossingMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
                 } else if (shouldDrawAllNodes == 'true') {
-                    addMarker(features, crossingToCoords); 
+                    addMarker(graphNodes, crossingTo); 
                 }
             }        
         }
     });
     
-    updateMapView(features, mapCenterCoords);
-}
-
-function getRgbColour(objWithColour) {
-    return JSON.parse(objWithColour['colour']);
+    updateMapView(graphNodes, features, mapCenterCoords);
 }

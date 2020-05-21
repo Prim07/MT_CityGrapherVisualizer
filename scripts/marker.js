@@ -1,8 +1,12 @@
 import { Feature } from 'ol';
 import { Point } from 'ol/geom';
 import { getHospitalMarkerStyle, getCrossingMarkerStyle, getDefaultCrossingMarkerStyle } from './styles.js';
+import { GraphNode } from './GraphNode.js';
+import { getRgbColour } from './rgb.js';
 
-export function addMarker(features, coords) {
+export function addMarker(graphNodes, node) {
+	const coords = [node['lon'], node['lat']];
+
 	const marker = new Feature({
 		type: 'marker',
 		geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857')
@@ -10,27 +14,31 @@ export function addMarker(features, coords) {
 
 	marker.setStyle(getDefaultCrossingMarkerStyle());
 
-	features.push(marker);
+	graphNodes.push(new GraphNode(node, marker));
 }
 
-export function addCrossingMarker(features, coords, rgb) {
+export function addCrossingMarker(graphNodes, node, rgb) {
+	const coords = [node['lon'], node['lat']];
+
 	const marker = new Feature({
 		type: 'marker',
 		geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857')
 	});
 
-	marker.setStyle(getCrossingMarkerStyle(rgb));
+	marker.setStyle(getCrossingMarkerStyle(getRgbColour(node)));
 
-	features.push(marker);
-} 
+	graphNodes.push(new GraphNode(node, marker));
+}
 
-export function addHospitalMarker(features, coords, rgb) {
+export function addHospitalMarker(graphNodes, node, rgb) {
+	const coords = [node['lon'], node['lat']];
+
 	const marker = new Feature({
 		type: 'marker',
 		geometry: new Point(coords).transform('EPSG:4326', 'EPSG:3857')
 	});
 
-	marker.setStyle(getHospitalMarkerStyle(rgb));
+	marker.setStyle(getHospitalMarkerStyle(getRgbColour(node)));
 
-	features.push(marker);
+	graphNodes.push(new GraphNode(node, marker));
 }
