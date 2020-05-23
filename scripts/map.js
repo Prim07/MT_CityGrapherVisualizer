@@ -9,8 +9,11 @@ import Draw from 'ol/interaction/Draw';
 
 window.onresize = resizeOsmMapToItsContainersHeight;
 
+const maxNumberOfPolygons = 5;
 const map = new Map();
 const vectorSource = new VectorSource({ wrapX: false });
+
+var isDrawEnded = false;
 
 var graphNodesToDraw = [];
 var lineFeaturesToDraw = [];
@@ -33,6 +36,8 @@ export function initializeMap() {
     center: fromLonLat([20.4122665, 49.8568619]),
     zoom: 2
   }));
+  
+  addInteractionOnMap();
 }
 
 export function addInteractionOnMap() {
@@ -50,19 +55,54 @@ export function updateMapView(graphNodes, lineFeatures, mapCenterCoords) {
 
 export function getPrioritizedGraphNodes() {
   let prioritizedGraphNodes = [];
-  const polygonFeature = polygonFeatures[0];
-
-  for (var graphNode of graphNodesToDraw) {
-    if (isGraphNodePrioritized(polygonFeature, graphNode)) {
-      prioritizedGraphNodes.push(graphNode);
+  
+  for(var polygonFeatureIndex in polygonFeatures) {
+    let geographicalNodeDTOIds = [];
+    let polygonFeature = polygonFeatures[polygonFeatureIndex];
+    for (var graphNode of graphNodesToDraw) {
+      if (isGraphNodePrioritized(polygonFeature, graphNode)) {
+        geographicalNodeDTOIds.push(graphNode.node['id']);
+      }
     }
+    let priorityValue = parseInt(document.getElementById("polygonPriorityInputNr" + (parseInt(polygonFeatureIndex) + 1)).value);
+    prioritizedGraphNodes.push({priorityValue, geographicalNodeDTOIds});
   }
-
+  
   return prioritizedGraphNodes;
 }
 
 function isGraphNodePrioritized(polygonFeature, graphNode) {
   return polygonFeature.getGeometry().intersectsCoordinate(graphNode.feature.getGeometry().getCoordinates());
+}
+
+export function removePolygonFeature() {
+  console.log(polygonFeatures.length);
+  if (polygonFeatures.length > 0) {
+    polygonFeatures.pop();
+    
+    vectorSource.clear();
+    vectorSource.addFeatures(getFeaturesFromGraphNodes(graphNodesToDraw).concat(lineFeaturesToDraw).concat(polygonFeatures));
+    
+    if(polygonFeatures.length < maxNumberOfPolygons) {
+      addInteractionOnMap();
+    }
+  }
+  
+  refreshPriorityInputsOnView();
+}
+
+function refreshPriorityInputsOnView() {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById("polygonPriorityInputNr" + i).style.visibility = "collapse";
+    document.getElementById("polygonPriorityPlaceholderNr" + i).style.visibility = "collapse";
+  }
+  
+  for (let i in polygonFeatures) {
+    let num = parseInt(i) + 1;
+    document.getElementById("polygonPriorityInputNr" + num).style.visibility = "visible";
+    document.getElementById("polygonPriorityPlaceholderNr" + num).style.visibility = "visible";
+  }
+  
 }
 
 export function hideOsmMap() {
@@ -78,17 +118,23 @@ function addInteraction(map) {
     source: vectorSource,
     type: "Polygon"
   });
-
+  
   draw.on("drawend", (arg1) => {
-    polygonFeatures = [arg1.feature];
-    getPrioritizedGraphNodes();
+    if(!isDrawEnded) {
+      polygonFeatures.push(arg1.feature);
+      if (polygonFeatures.length >= maxNumberOfPolygons) {
+        map.removeInteraction(draw);
+      }
+      refreshPriorityInputsOnView();
+      getPrioritizedGraphNodes();
+      isDrawEnded = true;
+    }
   });
-
+  
   draw.on("drawstart", () => {
-    vectorSource.clear();
-    vectorSource.addFeatures(getFeaturesFromGraphNodes(graphNodesToDraw).concat(lineFeaturesToDraw));
+    isDrawEnded = false;
   });
-
+  
   map.addInteraction(draw);
 }
 

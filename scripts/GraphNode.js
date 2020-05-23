@@ -6,6 +6,10 @@ class GraphNode {
         this._feature = feature;
     }
 
+    get node() {
+        return this._node;
+    }
+
     get feature() {
         return this._feature;
     }

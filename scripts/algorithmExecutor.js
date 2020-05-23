@@ -1,16 +1,11 @@
-import { validateInputsForRunningAlgorithm } from './formValidator.js';
-import { validateInputsForDrawingGraph } from './formValidator.js';
+import { validateInputsForRunningAlgorithm, validateInputsForDrawingGraph } from './formValidator.js';
 import { showMixin } from './alertViewer.js';
-import { getCreateTaskUri } from './config/config.js';
-import { getUriForGetGraph } from './config/config.js';
+import { getUriForGetGraph, getCreateTaskUri } from './config/config.js';
 import { getJsonData } from './rest/get.js';
 import { postJsonData } from './rest/post.js';
 import { deleteForUri } from './rest/delete.js';
 import { drawGraph } from './graph.js';
-import { initializeMap } from './map.js';
-import { hideOsmMap } from './map.js';
-import { showOsmMap } from './map.js';
-import { addInteractionOnMap } from './map.js';
+import { initializeMap, hideOsmMap, showOsmMap, addInteractionOnMap, removePolygonFeature, getPrioritizedGraphNodes } from './map.js';
 
 const drawGraphButton = document.getElementById("drawGraphButton");
 const algorithmStartButton = document.getElementById("algorithmStartButton");
@@ -147,6 +142,8 @@ function getPostDataForTaskInput(cityName, numberOfResults, algorithmType) {
     data["cityName"] = cityName;
     data["numberOfResults"] = numberOfResults;
     data["algorithmType"] = algorithmType;
+    data["prioritizedNodes"] = getPrioritizedGraphNodes();
+    console.log(data);
     return data;
 }
 
@@ -177,3 +174,10 @@ function shouldUpdateProgressbarView(requestCounter, calculationStatus) {
     && (requestCounter < maxNumberOfRequestForCalculationStatus) 
     && (calculationStatus == "CALCULATING_SHORTEST_PATHS");
 }
+
+// needs to be here because fuck JS
+document.addEventListener('keydown', function (event) {
+    if (event.key === "Escape") {
+        removePolygonFeature();
+    }
+});
