@@ -1,8 +1,24 @@
+#cityInput {
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+#numberOfResultsInput {
+  margin-bottom: 1em;
+}
+
 .inputContainer {
   position: relative;
   padding: 15px 0 0;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.inputContainerSmall {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 0px;
+  visibility: collapse;
 }
 
 .inputPlaceholder {
@@ -16,6 +32,22 @@
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
+}
+
+.inputPlaceholderSmall {
+  float: left;
+  margin-left: 0.5em;
+  font-family: inherit;
+  width: 2.5em;
+  border: 0;
+  border-bottom: 1px solid #d2d2d2;
+  outline: 0;
+  font-size: 16px;
+  color: #4d6680;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  visibility: collapse;
 }
 
 .inputPlaceholder::placeholder {
@@ -32,6 +64,15 @@
   position: absolute;
   top: 0;
   display: block;
+  transition: 0.2s;
+  font-size: 12px;
+  color: #9b9b9b;
+}
+
+.inputLabelSmall, .inputPlaceholder:focus ~ .inputLabelSmall {
+  position: absolute;
+  top: 0;
+  display: unset;
   transition: 0.2s;
   font-size: 12px;
   color: #9b9b9b;

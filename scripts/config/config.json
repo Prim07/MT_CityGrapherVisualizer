@@ -4,7 +4,8 @@
             "baseUrl": "http://localhost:8080/dataCollector",
             "endpoints": {
                 "createTask": "/createTask",
-                "algorithmResult" : "/algorithmResult/"
+                "algorithmResult" : "/algorithmResult/",
+                "graphData" : "/graphData/"
             }
         },
         "algorithm": {

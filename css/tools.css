@@ -6,26 +6,37 @@
   grid-area: inputContainerEven
 }
 
+.polygonPrioritiesDescription {
+  grid-area: polygonPrioritiesDescription;
+  /* visibility: collapse; */
+}
+
+.inputContainerSmall {
+  grid-area: inputContainerSmall;
+}
+
 .materialButtonContainer {
-    grid-area: materialButtonContainer;
-    text-align-last: right
+  grid-area: materialButtonContainer;
+  text-align-last: right
 }
 
 #bruteForceAddidtionalDescription {
-    color: gray;
-    visibility: collapse;
+  color: gray;
+  visibility: collapse;
 }
 
 .toolsContainer {
-    display: grid;
-    grid-template-columns: 4em 1fr;
-    grid-gap: 1em;
-
-    grid-template-areas:
-    "inputContainerOdd inputContainerOdd"
-    "inputContainerEven inputContainerEven"
-    "toggleSwitchContainer toggleSwitchDescription"
-    "toggleSwitchContainer toggleSwitchDescription"
-    "toggleSwitchContainer toggleSwitchDescription"
-    "materialButtonContainer materialButtonContainer"
+  display: grid;
+  grid-template-columns: 4em 1fr;
+  grid-gap: 1em;
+  
+  grid-template-areas:
+  "inputContainerOdd inputContainerOdd"
+  "inputContainerEven inputContainerEven"
+  "polygonPrioritiesDescription polygonPrioritiesDescription"
+  "inputContainerSmall inputContainerSmall"
+  "toggleSwitchContainer toggleSwitchDescription"
+  "toggleSwitchContainer toggleSwitchDescription"
+  "toggleSwitchContainer toggleSwitchDescription"
+  "materialButtonContainer materialButtonContainer"
 }
