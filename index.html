@@ -49,7 +49,7 @@
 						</div>
 						<div class="inputContainerSmall">
 							<div>
-								<!-- hack to properly display inputlabels -->
+								<!-- hack to properly display input labels -->
 								<label class="inputLabelSmall" id="polygonPriorityPlaceholderNr1">1st</label>
 							</div>
 							<div>
@@ -71,6 +71,12 @@
 							<div>
 								<input type="number" min="1" max="20" class="inputPlaceholderSmall" placeholder="5th" value="5" id="polygonPriorityInputNr5">
 							</div>
+						</div><div class="toggleSwitchContainer">
+							<input type="checkbox" id="inputVoronoiTriangulation" class="cbx hidden" checked="checked" />
+							<label for="inputVoronoiTriangulation" class="toggleSwitchLabel"></label>
+						</div>
+						<div class="toggleSwitchDescription">
+							Voronoi triangulation node weights
 						</div>
 						
 						<div class="toggleSwitchContainer">
@@ -86,50 +92,49 @@
 						</div><div class="toggleSwitchDescription">
 							Show all crossings
 						</div>
-						<div class="toggleSwitchDescription">
+						<div class="toggleSwitchDescription" id="algorithmToggleSwitchDescription">
 							Algorithm:
 						</div>
-					</br>
-					<div class="select">
-						<select id="algorithmMethod">
-							<option selected value="sa">Simulated Annealing</option>
-							<option value="ga">Genetic</option>
-							<option value="bf">Brute Force</option>
-						</select>
+						<div class="select">
+							<select id="algorithmMethod">
+								<option selected value="sa">Simulated Annealing</option>
+								<option value="ga">Genetic</option>
+								<option value="bf">Brute Force</option>
+							</select>
+						</div>
 					</div>
+					
+					<div class="materialButtonContainer">
+						<button class="materialButton" id="algorithmCancelButton">Cancel</button>
+						<button class="materialButton" id="algorithmStartButton">Start</button>
+					</div>
+				</aside>
+				
+				<div class="osmMapContainer" id="osmFirstMapContainer">
+					<div id="calculatingStatusContainer">
+						<p id="statusMessage"></p>
+						<div class="progress">
+							<div id="calculatingShortestPathsProgressProgressbar"
+							class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+							aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					
+					<div id="osmMap"></div>
 				</div>
 				
-				<div class="materialButtonContainer">
-					<button class="materialButton" id="algorithmCancelButton">Cancel</button>
-					<button class="materialButton" id="algorithmStartButton">Start</button>
-				</div>
-			</aside>
-			
-			<div class="osmMapContainer" id="osmFirstMapContainer">
-				<div id="calculatingStatusContainer">
-					<p id="statusMessage"></p>
-					<div class="progress">
-						<div id="calculatingShortestPathsProgressProgressbar"
-						class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
-						aria-valuemin="0" aria-valuemax="100"></div>
-					</div>
-				</div>
-				
-				<div id="osmMap"></div>
+				<footer>CityGrapher & CityGrapher Visualizer 2020, AGH Univeristy of Science and Technology</footer>
 			</div>
-			
-			<footer>CityGrapher & CityGrapher Visualizer 2020, AGH Univeristy of Science and Technology</footer>
 		</div>
-	</div>
-</section>
-
-<section id="content2">
-	<p>
-		Simulated annealing is a heuristic algorithm used for approximating global optimum of a given function. Mainly, it is recommended for problems where search space is too large to use a classic approach.
+	</section>
+	
+	<section id="content2">
+		<p>
+			Simulated annealing is a heuristic algorithm used for approximating global optimum of a given function. Mainly, it is recommended for problems where search space is too large to use a classic approach.
+		</br></br>
+		One of these problems is finding optimal distribution of local service centres in a city (on a city graph).
 	</br></br>
-	One of these problems is finding optimal distribution of local service centres in a city (on a city graph).
-</br></br>
-We created a tool which solves this problem. All you have to do is provide a city you are interested in and run algorithm. Just insert its name and number of requested results (i.e. number of crossings to find). You can also choose whether to draw or not all nodes and crossings on the map. You will be informed about the next stages of the process: data collecting and calculating.
+	We created a tool which solves this problem. All you have to do is provide a city you are interested in and run algorithm. Just insert its name and number of requested results (i.e. number of crossings to find). You can also choose whether to draw or not all nodes and crossings on the map. You will be informed about the next stages of the process: data collecting and calculating.
 </br></br>
 For the smaller cities you can try running <i>Brute Force</i> algorithm. However, this option in available only for 1-3 requested nodes.
 </p>

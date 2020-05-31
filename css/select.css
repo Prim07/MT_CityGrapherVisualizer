@@ -26,6 +26,7 @@ select::-ms-expand {
   background: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
   overflow: hidden;
   border-radius: .5em;
+  left: 1em;
 }
 select {
   flex: 1;

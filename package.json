@@ -11,22 +11,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
     "browserslist": "^4.11.1",
     "caniuse-lite": "^1.0.30001042",
     "compass": "^0.1.1",
+    "d3": "^5.16.0",
+    "d3-voronoi": "^1.1.4",
     "ol": "^5.2.0",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
     "styles.js": "^0.1.1",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^7.33.1",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-runtime": "^6.26.0",
-    "parcel": "^1.12.4",
-    "parcel-bundler": "^1.12.4"
+    "sweetalert2": "^7.33.1"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Prim07/MT_CityGrapherVisualizer.git"

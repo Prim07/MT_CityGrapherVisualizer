@@ -5,12 +5,13 @@ import { getJsonData } from './rest/get.js';
 import { postJsonData } from './rest/post.js';
 import { deleteForUri } from './rest/delete.js';
 import { drawGraph } from './graph.js';
-import { initializeMap, hideOsmMap, showOsmMap, addInteractionOnMap, removePolygonFeature, getPrioritizedGraphNodes } from './map.js';
+import { initializeMap, hideOsmMap, showOsmMap, addInteractionOnMap, drawVoronoiDiagram, removePolygonFeature, getPrioritizedGraphNodes } from './map.js';
 
 const drawGraphButton = document.getElementById("drawGraphButton");
 const algorithmStartButton = document.getElementById("algorithmStartButton");
 const algorithmCancelButton = document.getElementById("algorithmCancelButton");
 const inputToggleDrawNodes = document.getElementById("inputToggleDrawNodes");
+const inputVoronoiTriangulation = document.getElementById("inputVoronoiTriangulation");
 const inputToggleDrawCrossings = document.getElementById("inputToggleDrawCrossings");
 const calculatingStatusContainer = document.getElementById("calculatingStatusContainer");
 const statusMessage = document.getElementById("statusMessage");
@@ -143,8 +144,12 @@ function getPostDataForTaskInput(cityName, numberOfResults, algorithmType) {
     data["numberOfResults"] = numberOfResults;
     data["algorithmType"] = algorithmType;
     data["prioritizedNodes"] = getPrioritizedGraphNodes();
-    console.log(data);
+    data["useVoronoiTriangulationWeight"] = getInputVoronoiTriangulation();
     return data;
+}
+
+function getInputVoronoiTriangulation() {
+    return inputVoronoiTriangulation.checked;
 }
 
 function setButtonsToInitialState() {

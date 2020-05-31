@@ -1,12 +1,16 @@
 .toggleSwitchContainer {
   position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 0px;
 }
 
 .toggleSwitchDescription {
     position: relative;
-    top: 0.75em;
+    top: 5px;
+}
+
+#algorithmToggleSwitchDescription{
+  top:1em;
 }
 
 .toggleSwitchLabel {
