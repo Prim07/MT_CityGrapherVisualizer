@@ -5,12 +5,26 @@
 }
 
 .toggleSwitchDescription {
-    position: relative;
-    top: 5px;
+  position: relative;
+  top: 5px;
 }
 
-#algorithmToggleSwitchDescription{
+#algorithmToggleSwitchDescription {
   top:1em;
+}
+
+.resultInfoWithButtons {
+  overflow: hidden;
+}
+
+#algorithmResultInfo {
+  visibility: collapse;
+  float: left;
+}
+
+#materialButtonContainerId {
+  margin-top: 1em;
+  overflow: hidden;
 }
 
 .toggleSwitchLabel {

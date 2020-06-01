@@ -8,11 +8,14 @@
 
 .polygonPrioritiesDescription {
   grid-area: polygonPrioritiesDescription;
-  /* visibility: collapse; */
 }
 
 .inputContainerSmall {
   grid-area: inputContainerSmall;
+}
+
+.resultInfoWithButtons {
+  grid-area: resultInfoWithButtons;
 }
 
 .materialButtonContainer {
@@ -38,5 +41,5 @@
   "toggleSwitchContainer toggleSwitchDescription"
   "toggleSwitchContainer toggleSwitchDescription"
   "toggleSwitchContainer toggleSwitchDescription"
-  "materialButtonContainer materialButtonContainer"
+  "resultInfoWithButtons resultInfoWithButtons"
 }
