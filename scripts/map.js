@@ -6,8 +6,12 @@ import VectorSource from 'ol/source/Vector';
 import { Map, View } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import Draw from 'ol/interaction/Draw';
+import { generateVoronoiDiagram } from './voronoi.js';
+import { getDrawnPolygonStyle } from './styles.js';
 
 window.onresize = resizeOsmMapToItsContainersHeight;
+
+const inputVoronoiTriangulation = document.getElementById("inputVoronoiTriangulation");
 
 const maxNumberOfPolygons = 5;
 const map = new Map();
@@ -17,8 +21,9 @@ var isDrawEnded = false;
 
 var graphNodesToDraw = [];
 var lineFeaturesToDraw = [];
-var polygonFeatures = [];
-var draw; // global so we can remove it later
+var voronoiFeaturesToDraw = [];
+var polygonFeaturesToDraw = [];
+var draw;
 
 export function initializeMap() {
   map.setTarget('osmMap');
@@ -47,43 +52,55 @@ export function addInteractionOnMap() {
 export function updateMapView(graphNodes, lineFeatures, mapCenterCoords) {
   map.getView().setCenter(fromLonLat(mapCenterCoords));
   map.getView().setZoom(13);
-  vectorSource.clear();
-  graphNodesToDraw = graphNodes;
+  graphNodesToDraw = getGraphNodesWithoutDuplicates(graphNodes);
   lineFeaturesToDraw = lineFeatures;
-  vectorSource.addFeatures(getFeaturesFromGraphNodes(graphNodes).concat(lineFeatures).concat(polygonFeatures));
+  if (isVoronoiDiagramEnabled()) {
+    voronoiFeaturesToDraw = generateVoronoiDiagram(graphNodesToDraw);
+  };
+
+  redrawFeatures();
 }
 
 export function getPrioritizedGraphNodes() {
   let prioritizedGraphNodes = [];
   
-  for(var polygonFeatureIndex in polygonFeatures) {
-    let geographicalNodeDTOIds = [];
-    let polygonFeature = polygonFeatures[polygonFeatureIndex];
+  for (var polygonFeatureIndex in polygonFeaturesToDraw) {
+    let polygonFeature = polygonFeaturesToDraw[polygonFeatureIndex];
+    let priorityValue = parseInt(document.getElementById("polygonPriorityInputNr" + (parseInt(polygonFeatureIndex) + 1)).value);
     for (var graphNode of graphNodesToDraw) {
-      if (isGraphNodePrioritized(polygonFeature, graphNode)) {
-        geographicalNodeDTOIds.push(graphNode.node['id']);
+      if (isGraphNodePrioritized(polygonFeature, graphNode) && graphNode.node['isCrossing'] == true) {
+        if (graphNode.weight > 1) {
+          graphNode.weight += priorityValue;
+        } else {
+          graphNode.weight = priorityValue;
+        }
       }
     }
-    let priorityValue = parseInt(document.getElementById("polygonPriorityInputNr" + (parseInt(polygonFeatureIndex) + 1)).value);
-    prioritizedGraphNodes.push({priorityValue, geographicalNodeDTOIds});
   }
-  
+
+  for(let graphNode of graphNodesToDraw) {
+    let graphNodeWeight = graphNode.weight;
+    let foundPriorityToIds = getPriorityValue(graphNodeWeight, prioritizedGraphNodes);
+
+    if(foundPriorityToIds != null) {
+      foundPriorityToIds['geographicalNodeDTOIds'].push(graphNode.node['id']);
+    } else {
+      let priorityValue = graphNode.weight;
+      let geographicalNodeDTOIds = [graphNode.node['id']];
+      prioritizedGraphNodes.push({ priorityValue, geographicalNodeDTOIds });
+    }
+  }
+
   return prioritizedGraphNodes;
 }
 
-function isGraphNodePrioritized(polygonFeature, graphNode) {
-  return polygonFeature.getGeometry().intersectsCoordinate(graphNode.feature.getGeometry().getCoordinates());
-}
-
 export function removePolygonFeature() {
-  console.log(polygonFeatures.length);
-  if (polygonFeatures.length > 0) {
-    polygonFeatures.pop();
+  if (polygonFeaturesToDraw.length > 0) {
+    polygonFeaturesToDraw.pop();
     
-    vectorSource.clear();
-    vectorSource.addFeatures(getFeaturesFromGraphNodes(graphNodesToDraw).concat(lineFeaturesToDraw).concat(polygonFeatures));
+    redrawFeatures();
     
-    if(polygonFeatures.length < maxNumberOfPolygons) {
+    if (polygonFeaturesToDraw.length < maxNumberOfPolygons) {
       addInteractionOnMap();
     }
   }
@@ -91,26 +108,69 @@ export function removePolygonFeature() {
   refreshPriorityInputsOnView();
 }
 
-function refreshPriorityInputsOnView() {
-  for (let i = 1; i <= 5; i++) {
-    document.getElementById("polygonPriorityInputNr" + i).style.visibility = "collapse";
-    document.getElementById("polygonPriorityPlaceholderNr" + i).style.visibility = "collapse";
-  }
-  
-  for (let i in polygonFeatures) {
-    let num = parseInt(i) + 1;
-    document.getElementById("polygonPriorityInputNr" + num).style.visibility = "visible";
-    document.getElementById("polygonPriorityPlaceholderNr" + num).style.visibility = "visible";
-  }
-  
-}
-
 export function hideOsmMap() {
   document.getElementById("osmMap").style.display = "none";
 }
 
 export function showOsmMap() {
-  document.getElementById("osmMap").style.display = "block";  
+  document.getElementById("osmMap").style.display = "block";
+}
+
+export function clearVoronoiDiagram() {
+  voronoiFeaturesToDraw = [];
+}
+
+function redrawFeatures() {
+  vectorSource.clear();
+  vectorSource.addFeatures(getFeaturesFromGraphNodes(graphNodesToDraw).concat(lineFeaturesToDraw).concat(polygonFeaturesToDraw).concat(voronoiFeaturesToDraw))
+}
+
+function isVoronoiDiagramEnabled() {
+  return inputVoronoiTriangulation.checked;
+}
+
+function isGraphNodePrioritized(polygonFeature, graphNode) {
+  return polygonFeature.getGeometry().intersectsCoordinate(graphNode.feature.getGeometry().getCoordinates());
+}
+
+function getGraphNodesWithoutDuplicates(graphNodes) {
+  const graphNodesWithoutDuplicates = [];
+  const graphNodesIdsWithoutDuplicates = [];
+
+  graphNodes.forEach(graphNode => {
+    const id = graphNode.node['id'];
+    if (!graphNodesIdsWithoutDuplicates.includes(id)) {
+      graphNodesIdsWithoutDuplicates.push(id);
+      graphNodesWithoutDuplicates.push(graphNode);
+    }
+  });
+
+  return graphNodesWithoutDuplicates;
+}
+
+function getPriorityValue(weight, prioritizedGraphNodes) {
+  let foundPriorityToIds = null;
+
+  prioritizedGraphNodes.forEach(priorityToIds => {
+    if (weight == priorityToIds['priorityValue']) {
+      foundPriorityToIds = priorityToIds;
+    }
+  });
+
+  return foundPriorityToIds;
+}
+
+function refreshPriorityInputsOnView() {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById("polygonPriorityInputNr" + i).style.visibility = "collapse";
+    document.getElementById("polygonPriorityPlaceholderNr" + i).style.visibility = "collapse";
+  }
+
+  for (let i in polygonFeaturesToDraw) {
+    let num = parseInt(i) + 1;
+    document.getElementById("polygonPriorityInputNr" + num).style.visibility = "visible";
+    document.getElementById("polygonPriorityPlaceholderNr" + num).style.visibility = "visible";
+  }
 }
 
 function addInteraction(map) {
@@ -120,13 +180,14 @@ function addInteraction(map) {
   });
   
   draw.on("drawend", (arg1) => {
-    if(!isDrawEnded) {
-      polygonFeatures.push(arg1.feature);
-      if (polygonFeatures.length >= maxNumberOfPolygons) {
-        map.removeInteraction(draw);
+    map.removeInteraction(draw);
+    arg1.feature.setStyle(getDrawnPolygonStyle());
+    if (!isDrawEnded) {
+      polygonFeaturesToDraw.push(arg1.feature);
+      if (polygonFeaturesToDraw.length < maxNumberOfPolygons) {
+        map.addInteraction(draw);
       }
       refreshPriorityInputsOnView();
-      getPrioritizedGraphNodes();
       isDrawEnded = true;
     }
   });
