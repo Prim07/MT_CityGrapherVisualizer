@@ -1,7 +1,7 @@
 import { showError } from './alertViewer.js';
 
 const maxNumberOfResultsForBruteForce = 3;
-const maxNodeWeight = 20;
+const maxNodeWeight = 10;
 
 export function validateInputsForRunningAlgorithm() {
     if (validateInputsForDrawingGraph() == false) {

@@ -4,7 +4,8 @@ class GraphNode {
     constructor(node, feature) {
         this._node = node;
         this._feature = feature;
-        this._weight = 1;
+        this._manualWeight = 1;
+        this._voronoiWeight = -10;
     }
 
     get node() {
@@ -15,12 +16,20 @@ class GraphNode {
         return this._feature;
     }
 
-    get weight() {
-        return this._weight;
+    get manualWeight() {
+        return this._manualWeight;
     }
 
-    set weight(val) {
-        this._weight = val;
+    set manualWeight(val) {
+        this._manualWeight = val;
+    }
+
+    get voronoiWeight() {
+        return this._voronoiWeight;
+    }
+
+    set voronoiWeight(val) {
+        this._voronoiWeight = val;
     }
 
 }

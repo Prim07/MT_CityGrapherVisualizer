@@ -4,29 +4,32 @@ import { updateMapView } from './map.js';
 import { getRgbColour } from './rgb.js';
 
 export function drawGraph(graphData) {
-    // console.log(graphData);
-    const shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
-    const shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
+    let shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
+    let shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
     
     const edges = graphData['edges'];
     let features = [];
     let graphNodes = [];
     let mapCenterCoords;
+    let addedCrossingsNodesIds = [];
     
     edges.forEach(edge => {
         const edgeCrossings = edge['nodes'];
-        
         const firstCrossing = edgeCrossings[0];
         mapCenterCoords = [firstCrossing['lon'], firstCrossing['lat']];
         if (firstCrossing['isHospital']) {
             addHospitalMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
+            addedCrossingsNodesIds.push(firstCrossing['id']);
         } else {   
             if (shouldDrawAllCrossings == 'true' && firstCrossing['isCrossing'] == true) {
-                addCrossingMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
+                if (!addedCrossingsNodesIds.includes(firstCrossing['id'])) {
+                    addCrossingMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
+                    addedCrossingsNodesIds.push(firstCrossing['id']);
+                }
             } else if (shouldDrawAllNodes == 'true') {
                 addMarker(graphNodes, firstCrossing);
             }
-        }  
+        }
         
         for (let i = 1; i < edgeCrossings.length; ++i) {
             const crossingFrom = edgeCrossings[i - 1];
@@ -37,13 +40,17 @@ export function drawGraph(graphData) {
             
             if (crossingTo['isHospital']) {
                 addHospitalMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
+                addedCrossingsNodesIds.push(crossingTo['id']);
             } else { 
                 if (shouldDrawAllCrossings == 'true' && crossingTo['isCrossing'] == true) {
-                    addCrossingMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
+                    if (!addedCrossingsNodesIds.includes(crossingTo['id'])) {
+                        addCrossingMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
+                        addedCrossingsNodesIds.push(crossingTo['id']);
+                    }
                 } else if (shouldDrawAllNodes == 'true') {
                     addMarker(graphNodes, crossingTo); 
                 }
-            }        
+            }
         }
     });
     

@@ -2,7 +2,6 @@ import { Feature } from 'ol';
 import { getArea } from 'ol/sphere';
 import * as d3 from 'd3';
 import * as ol_geom from 'ol/geom';
-import { getMaxNodeWeighthValue } from './formValidator.js';
 
 export function generateVoronoiDiagram(graphNodesToDraw) {
     const graphNodesCoords = graphNodesToDraw.filter(g => g.node['isCrossing'] == true).map(g => [g.node['lon'], g.node['lat']]);
@@ -44,7 +43,8 @@ export function generateVoronoiDiagram(graphNodesToDraw) {
         ]);
     }
 
-    normalizeVoronoiWeights(polygonToAreaToIsOnEdge);
+    setAreasOnEdgesToNegativeWeight(polygonToAreaToIsOnEdge);
+    setAreasNotOnEdgesToPercentgeShare(polygonToAreaToIsOnEdge);
 
     updateGraphNodesWeights(polygonToAreaToIsOnEdge, graphNodesToDraw);
 
@@ -112,54 +112,35 @@ function getExtentValues(coords) {
     return [[minLon, minLat], [maxLon, maxLat]];
 }
 
-function normalizeVoronoiWeights(polygonToAreaToIsOnEdge) {
-    weightDownAreasOnEdges(polygonToAreaToIsOnEdge);
-
-    let maxArea = Number.NEGATIVE_INFINITY;
-    let minArea = Number.POSITIVE_INFINITY;
-
-    polygonToAreaToIsOnEdge.forEach(arr => {
-        let currAreaValue = arr[1];
-        if (currAreaValue > maxArea) {
-            maxArea = currAreaValue;
-        }
-        if (currAreaValue < minArea) {
-            minArea = currAreaValue;
-        }
-    });
-
-    let minWeight = 1;
-    let maxWeight = getMaxNodeWeighthValue();
-    let chunk = (maxArea - minArea) / (maxWeight - minWeight);
-
-    polygonToAreaToIsOnEdge.forEach(arr => {
-        const currentArea = arr[1];
-        arr[1] = Math.floor((currentArea - minArea) / chunk) + minWeight;
-    });
-}
-
 function updateGraphNodesWeights(polygonToAreaToIsOnEdge, graphNodesToDraw) {
     for (let curentPolygonToAreaToIsOnEdge of polygonToAreaToIsOnEdge) {
         const currentPolygon = curentPolygonToAreaToIsOnEdge[0];
         for (let graphNode of graphNodesToDraw) {
             if (currentPolygon.intersectsCoordinate(graphNode.feature.getGeometry().getCoordinates())) {
-                graphNode.weight = curentPolygonToAreaToIsOnEdge[1];
+                graphNode.voronoiWeight = curentPolygonToAreaToIsOnEdge[1];
             }
         }
     }
+
+    graphNodesToDraw.filter(graphNode => isNodeOnCityEdgeline(graphNode)).forEach(graphNode => graphNode.voronoiWeight = -1);
 }
 
-function weightDownAreasOnEdges(polygonToAreaToIsOnEdge) {
-    let sumOfAreasOnTheEdgeOfVoronoiDiagram = 0;
+function isNodeOnCityEdgeline(graphNode) {
+    return graphNode.voronoiWeight == 0;
+}
+
+function setAreasOnEdgesToNegativeWeight(polygonToAreaToIsOnEdge) {
+    polygonToAreaToIsOnEdge.filter(arr => arr[2] == true).forEach(arr => {
+        arr[1] = -1;
+    });
+}
+
+function setAreasNotOnEdgesToPercentgeShare(polygonToAreaToIsOnEdge) {
     let sumOfAreasNotOnTheEdgeOfVoronoiDiagram = 0;
-    polygonToAreaToIsOnEdge.filter(arr => arr[2] == true).forEach(arr => sumOfAreasOnTheEdgeOfVoronoiDiagram += arr[1]);
     polygonToAreaToIsOnEdge.filter(arr => arr[2] == false).forEach(arr => sumOfAreasNotOnTheEdgeOfVoronoiDiagram += arr[1]);
 
-    const avgOfAreasOnTheEdgeOfVoronoiDiagram = sumOfAreasOnTheEdgeOfVoronoiDiagram / polygonToAreaToIsOnEdge.filter(arr => arr[2] == true).length;
-    const avgOfAreasNotOnTheEdgeOfVoronoiDiagram = sumOfAreasNotOnTheEdgeOfVoronoiDiagram / polygonToAreaToIsOnEdge.filter(arr => arr[2] == false).length;
-
-    polygonToAreaToIsOnEdge.filter(arr => arr[2] == true).forEach(arr => {
+    polygonToAreaToIsOnEdge.filter(arr => arr[2] == false).forEach(arr => {
         const currentArea = arr[1];
-        arr[1] = avgOfAreasNotOnTheEdgeOfVoronoiDiagram - (currentArea / avgOfAreasOnTheEdgeOfVoronoiDiagram);
-    });
+        arr[1] = currentArea / sumOfAreasNotOnTheEdgeOfVoronoiDiagram;
+    });  
 }

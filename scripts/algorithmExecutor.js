@@ -42,6 +42,7 @@ drawGraphButton.onclick = function () {
 
         getJsonData(cityGraphDataUri).then(result => {
             showMixin("Collecting data completed");
+            refreshToolsValuesInSessionStorage();
             drawGraph(result);
             addInteractionOnMap();
             setButtonsToInitialState();
@@ -81,8 +82,7 @@ algorithmStartButton.onclick = function () {
             showMixin("Started algorithm for city " + cityName);
             setButtonsToAwaitingState();
             sessionStorage.setItem('uri', result['uri']);
-            sessionStorage.setItem('shouldDrawAllNodes', inputToggleDrawNodes.checked);
-            sessionStorage.setItem('shouldDrawAllCrossings', inputToggleDrawCrossings.checked);
+            refreshToolsValuesInSessionStorage();
             getResultsFromAlgorithm(0, sessionStorage.getItem('uri'));
         })
             .catch(error => {
@@ -156,8 +156,13 @@ function getPostDataForTaskInput(cityName, numberOfResults, algorithmType) {
     data["cityName"] = cityName;
     data["numberOfResults"] = numberOfResults;
     data["algorithmType"] = algorithmType;
-    data["prioritizedNodes"] = getPrioritizedGraphNodes();
+    data["nodesPriorities"] = getPrioritizedGraphNodes();
     return data;
+}
+
+function refreshToolsValuesInSessionStorage() {
+    sessionStorage.setItem('shouldDrawAllNodes', inputToggleDrawNodes.checked);
+    sessionStorage.setItem('shouldDrawAllCrossings', inputToggleDrawCrossings.checked);
 }
 
 function showResultInfo(fitnessScore, numOfEdges = null, numOfVertices = null) {
