@@ -147,16 +147,24 @@
 
 		<section id="content2">
 			<p>
-				Simulated annealing is a heuristic algorithm used for approximating global optimum of a given function.
+				Simulated annealing algorithm and genetic algorithms are heuristic algorithms used for approximating global optimum of a given function.
 				Mainly, it is recommended for problems where search space is too large to use a classic approach.
 				</br></br>
 				One of these problems is finding optimal distribution of local service centres in a city (on a city
 				graph).
 				</br></br>
-				We created a tool which solves this problem. All you have to do is provide a city you are interested in
-				and run algorithm. Just insert its name and number of requested results (i.e. number of crossings to
+				A tool which solves this problem was created for the needs of Master Thesis. 
+				All you have to do is provide a city you are interested in and run algorithm. 
+				Just insert its name and number of requested results (i.e. number of crossings to
 				find). You can also choose whether to draw or not all nodes and crossings on the map. You will be
 				informed about the next stages of the process: data collecting and calculating.
+				</br></br>
+				If you want to prioritize some of the graph nodes you have two options. 
+				First is to draw manually these areas and set priority value from range [1, 10] where 1 is default min, 10 is max.
+				Second is to generate automatically weights from Voronoi diagram. The larger Voronoi cell is, the higher weight is set.
+				Cells on the edge of the city are weighted down to zero as they are unnaturally big and can distort results
+				</br>
+				To draw manual areas or set weights from Voronoi diagra, you must draw graph of the city first.
 				</br></br>
 				For the smaller cities you can try running <i>Brute Force</i> algorithm. However, this option in
 				available only for 1-3 requested nodes.
