@@ -42,3 +42,14 @@ export function getHospitalMarkerStyle(rgb) {
     })
   })
 }
+
+export function getDrawnPolygonStyle() {
+  return new Style({
+    stroke: new Stroke({
+      width: 4,
+      color: [33, 150, 243, 1.0],
+      lineCap: "round"
+    }),
+    fill: new Fill({ color: [255, 255, 255, 0.5] })
+  });
+}

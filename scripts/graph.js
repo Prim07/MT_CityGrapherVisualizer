@@ -1,30 +1,35 @@
 import { addMarker, addHospitalMarker, addCrossingMarker } from './marker.js';
 import { addLine } from './line.js';
 import { updateMapView } from './map.js';
+import { getRgbColour } from './rgb.js';
 
 export function drawGraph(graphData) {
-    // console.log(graphData);
-    const shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
-    const shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
+    let shouldDrawAllNodes = sessionStorage.getItem('shouldDrawAllNodes');
+    let shouldDrawAllCrossings = sessionStorage.getItem('shouldDrawAllCrossings');
     
     const edges = graphData['edges'];
     let features = [];
+    let graphNodes = [];
     let mapCenterCoords;
+    let addedCrossingsNodesIds = [];
     
     edges.forEach(edge => {
         const edgeCrossings = edge['nodes'];
-        
         const firstCrossing = edgeCrossings[0];
-        const firstCrossingCoords = mapCenterCoords = [firstCrossing['lon'], firstCrossing['lat']];
+        mapCenterCoords = [firstCrossing['lon'], firstCrossing['lat']];
         if (firstCrossing['isHospital']) {
-            addHospitalMarker(features, firstCrossingCoords, getRgbColour(firstCrossing));
+            addHospitalMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
+            addedCrossingsNodesIds.push(firstCrossing['id']);
         } else {   
             if (shouldDrawAllCrossings == 'true' && firstCrossing['isCrossing'] == true) {
-                addCrossingMarker(features, firstCrossingCoords, getRgbColour(firstCrossing));
+                if (!addedCrossingsNodesIds.includes(firstCrossing['id'])) {
+                    addCrossingMarker(graphNodes, firstCrossing, getRgbColour(firstCrossing));
+                    addedCrossingsNodesIds.push(firstCrossing['id']);
+                }
             } else if (shouldDrawAllNodes == 'true') {
-                addMarker(features, firstCrossingCoords);
+                addMarker(graphNodes, firstCrossing);
             }
-        }  
+        }
         
         for (let i = 1; i < edgeCrossings.length; ++i) {
             const crossingFrom = edgeCrossings[i - 1];
@@ -34,20 +39,20 @@ export function drawGraph(graphData) {
             addLine(features, crossingFromCoords, crossingToCoords, getRgbColour(edge));
             
             if (crossingTo['isHospital']) {
-                addHospitalMarker(features, crossingToCoords, getRgbColour(crossingTo));
+                addHospitalMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
+                addedCrossingsNodesIds.push(crossingTo['id']);
             } else { 
                 if (shouldDrawAllCrossings == 'true' && crossingTo['isCrossing'] == true) {
-                    addCrossingMarker(features, crossingToCoords, getRgbColour(crossingTo));
+                    if (!addedCrossingsNodesIds.includes(crossingTo['id'])) {
+                        addCrossingMarker(graphNodes, crossingTo, getRgbColour(crossingTo));
+                        addedCrossingsNodesIds.push(crossingTo['id']);
+                    }
                 } else if (shouldDrawAllNodes == 'true') {
-                    addMarker(features, crossingToCoords); 
+                    addMarker(graphNodes, crossingTo); 
                 }
-            }        
+            }
         }
     });
     
-    updateMapView(features, mapCenterCoords);
-}
-
-function getRgbColour(objWithColour) {
-    return JSON.parse(objWithColour['colour']);
+    updateMapView(graphNodes, features, mapCenterCoords);
 }
