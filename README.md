@@ -6,6 +6,12 @@ https://cg-visualizer.herokuapp.com/
 
 Aplikacja dostępna jest pod linkiem u góry. Heroku jest darmowym narzędziem i potrzebuje chwili, aby się wybudzić. W razie problemów proszę o kontakt.
 
+Aplikacja ma trzy moduły (powyższy frontendowy i dwa backendowe) i każdy musi się wcześniej wybudzić. Aby sprawdzić pierwszy backendowy moduł lub sztucznie go wybudzić, proszę wejść pod link:
+https://cg-data-collector.herokuapp.com/dataCollector/test (powinien wyświetlić się `Hello, world!`).
+
+Analogicznie drugi moduł backendowy:
+https://cg-algorithm.herokuapp.com/algorithm/test (treść komunikatu ta sama).
+
 Niektóre miasta mogą nie dzialać z powodu problemów z OpenStreetMap API. Takie nie będą chciały się już rysować na widoku. W takich wypadkach można spróbować użyć angielskiej nazwy miejscowości, o ile jest ona dostępna w OpenStreetMap.
 
 W przypadku innych miast losowo występuje drobny problem z deserializacją i algorytm nie chce wystartować (już na etapie jego uruchamiania). Kilkukrotnie powtórzona próba jego uruchomienia może pomóc.
