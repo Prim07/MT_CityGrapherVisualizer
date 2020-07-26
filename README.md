@@ -27,10 +27,10 @@ W celu nadania wag wierzchołkom grafu należy najpierw narysować graf i naryso
 
 The application is available at the link above. Heroku is a free tool and needs a moment to wake up. In case of any problems feel free to contact me.
 
-An application has three modules (the frontend one and two backend modules) and each of them must be woken up. To check first bacend module or manually wake it up please go under link:
+An application has three modules (the frontend one and two backend modules) and each of them must be woken up. To check the first backend module or manually wake it up please go under link:
 https://cg-data-collector.herokuapp.com/dataCollector/test (you should see `Hello, world!`).
 
-Simirarly the second backend moduel:
+Simirarly the second backend module:
 https://cg-algorithm.herokuapp.com/algorithm/test (the same message as in the first one). The solution is not quite elegant but it's permanent disadvantage of using free tools.
 
 Some of the cities won't work beacuse of OpenStreetMaps API problems. Such cities will not be drawn on the view. In cases like these you can try to use the name of the city in another language but only if this name occurs in OpenStreetMap.
