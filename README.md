@@ -27,11 +27,8 @@ W celu nadania wag wierzchołkom grafu należy najpierw narysować graf i naryso
 
 The application is available at the link above. Heroku is a free tool and needs a moment to wake up. In case of any problems feel free to contact me.
 
-Application has three modules (the frontend one and two backend modules) and each of them must be woken up. To check first bacend module or manually wake it up please go under link:
+An application has three modules (the frontend one and two backend modules) and each of them must be woken up. To check first bacend module or manually wake it up please go under link:
 https://cg-data-collector.herokuapp.com/dataCollector/test (you should see `Hello, world!`).
-
-Analogicznie drugi moduł backendowy:
-https://cg-algorithm.herokuapp.com/algorithm/test (treść komunikatu ta sama). Rozwiązanie jest nieeeganckie, ale to stała wada darmowych narzędzi.
 
 Simirarly the second backend moduel:
 https://cg-algorithm.herokuapp.com/algorithm/test (the same message as in the first one). The solution is not quite elegant but it's permanent disadvantage of using free tools.
