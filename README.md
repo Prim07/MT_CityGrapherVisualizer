@@ -33,7 +33,7 @@ https://cg-data-collector.herokuapp.com/dataCollector/test (you should see `Hell
 Simirarly the second backend module:
 https://cg-algorithm.herokuapp.com/algorithm/test (the same message as in the first one). The solution is not quite elegant but it's permanent disadvantage of using free tools.
 
-Some of the cities won't work beacuse of OpenStreetMaps API problems. Such cities will not be drawn on the view. In cases like these you can try to use the name of the city in another language but only if this name occurs in OpenStreetMap.
+Some of the cities won't work beacuse of the OpenStreetMaps API problems. Such cities will not be drawn on the view. In cases like these you can try to use the name of the city in another language but only if this name is present in OpenStreetMap.
 
 In case of some cities there is a random error with deserialization and algorithm won't start (during execution stage). Repeated attempts to start it can help.
 
@@ -41,4 +41,4 @@ In case of some cities there is a random error with deserialization and algorith
 
 Fill city name, number of points to locate on graph and an algorithm type (brute force up to 3 points).
 
-In order to set node weights of the grapf you must firstly draw the graph and draw prioritized areas (hold Shift key to draw any shape, press Esc to remove prioritized areas) and then set corresponing weight values from range 1-10. It is also possible to automatically generate weights from thr Voronoi diagram (just check adequate option on the left panel).
+In order to set node weights of the grapf you must firstly draw the graph and draw prioritized areas (hold Shift key to draw any shape, press Esc to remove prioritized areas) and then set corresponding weight values from range 1-10. It is also possible to automatically generate weights from thr Voronoi diagram (just check adequate option on the left panel).
